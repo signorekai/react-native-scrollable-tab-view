@@ -237,14 +237,15 @@ const ScrollableTabView = React.createClass({
 
   render() {
     let overlayTabs = (this.props.tabBarPosition === 'overlayTop' || this.props.tabBarPosition === 'overlayBottom');
-    let tabBarProps = Object.assign({
+    let tabBarProps = {
       goToPage: this.goToPage,
       tabs: this._children().map((child) => child.props.tabLabel),
       activeTab: this.state.currentPage,
       scrollX: this.state.scrollX,
       scrollValue: this.state.scrollValue,
       containerWidth: this.state.containerWidth,
-    }, this.props.tabBarStyle);
+      style: this.props.tabBarStyle,
+    };
 
     if (this.props.tabBarBackgroundColor) {
       tabBarProps.backgroundColor = this.props.tabBarBackgroundColor;
@@ -262,12 +263,12 @@ const ScrollableTabView = React.createClass({
       tabBarProps.underlineStyle = this.props.tabBarUnderlineStyle;
     }
     if (overlayTabs) {
-      tabBarProps.style = {
+      tabBarProps.style = Object.assign( this.props.tabBarStyleo, {
         position: 'absolute',
         left: 0,
         right: 0,
         [this.props.tabBarPosition === 'overlayTop' ? 'top' : 'bottom']: 0,
-      };
+      });
     }
 
     return <View style={[styles.container, this.props.style, ]} onLayout={this._handleLayout}>
